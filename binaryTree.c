@@ -76,7 +76,6 @@ void addNode(struct Tree* tree, int value){
 	struct Node* newNode = malloc(sizeof(struct Node));
 	newNode = createNode(value);;
 	struct Node* parentNode = findSpot(*tree, value);
-	printf("spot is %d\n", parentNode->value);
 	if(parentNode->value>=value){
 		parentNode->children[0] = newNode;
 	}else{
@@ -101,11 +100,6 @@ int main(){
 	addNode(&myTree, 150);
 	addNode(&myTree, 15);
 	printTree(*(myTree.pTree));
-	printf("----------------Manual printer---------------------\n");
-	printf("root is: %d with children pointers %p and %p \n", myTree.pTree->value, myTree.pTree->children[0], myTree.pTree->children[1]);
-	printf("l2 is: %d with children pointers %p and %p \n", myTree.pTree->children[0]->value, myTree.pTree->children[0]->children[0], myTree.pTree->children[0]->children[1]);
-	printf("l3 is: %d with children pointers %p and %p \n", myTree.pTree->children[0]->children[0]->value, myTree.pTree->children[0]->children[0]->children[0], myTree.pTree->children[0]->children[0]->children[1]);
-
 	return 0;
 }
 
