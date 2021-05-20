@@ -2,23 +2,22 @@
 #include <stdlib.h>
 
 
-
+//node structure
 struct Node {
 	int value;
 	struct Node ** children;
 };
-
+//tree structure
 struct Tree{
 	struct Node * pTree;
 };
-
+//creates tree
 struct Tree createTree(){
 	struct Tree newTree;
-	newTree.pTree = malloc(sizeof(int*));
 	newTree.pTree = NULL;
 	return newTree;
 }
-
+//creates node
 struct Node* createNode(int value){
 	struct Node* newNode = malloc(sizeof(struct Node));
 	newNode->value = value;
@@ -27,7 +26,7 @@ struct Node* createNode(int value){
 	newNode->children[1] = NULL;
 	return newNode;
 }
-
+//prints tree
 void printTree(struct Node node){
 	printf("%d\n", node.value);
 	if(node.children[0] == NULL && node.children[1] == NULL){
@@ -43,8 +42,7 @@ void printTree(struct Node node){
 	}
 	return;
 }
-
-
+//finds the location to add a node into the tree
 struct Node* findSpot(struct Tree tree, int value){
 	struct Node* currentNode = tree.pTree;
 	int searching = 1;
@@ -67,14 +65,14 @@ struct Node* findSpot(struct Tree tree, int value){
 	
 	
 }
+//adds a node of value "value" to the given tree
 void addNode(struct Tree* tree, int value){
 	if(tree->pTree == NULL){
 		
 		(*tree).pTree = createNode(value);
 		return;
 	}
-	struct Node* newNode = malloc(sizeof(struct Node));
-	newNode = createNode(value);;
+	struct Node* newNode = createNode(value);;
 	struct Node* parentNode = findSpot(*tree, value);
 	if(parentNode->value>=value){
 		parentNode->children[0] = newNode;
@@ -85,6 +83,21 @@ void addNode(struct Tree* tree, int value){
 	
 
 	
+}
+//frees memory for a sub-tree
+void freeSubTree(struct Node* node){
+	if(node->children[0] != NULL){
+		freeSubTree(node->children[0]);
+	}
+	if(node->children[1] != NULL){
+		freeSubTree(node->children[1]);
+	}
+	free(node->children);
+	free(node);
+}
+//frees entire tree memory
+void freeTree(struct Tree* tree){
+	freeSubTree(tree->pTree);
 }
 
 int main(){
@@ -100,7 +113,11 @@ int main(){
 	addNode(&myTree, 150);
 	addNode(&myTree, 15);
 	printTree(*(myTree.pTree));
+	freeTree(&myTree);
+
+
 	return 0;
+
 }
 
 
